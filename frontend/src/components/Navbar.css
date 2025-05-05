@@ -1,0 +1,27 @@
+.navbar {
+    background-color: #222;
+    color: white;
+    padding: 1rem;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  a {
+    color: #6890ff;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+  
+  button {
+    background-color: rgb(87, 179, 255);
+    border: none;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
