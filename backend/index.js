@@ -20,6 +20,6 @@ app.get('/', (req, res) => {
 });
 
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI)
   .then(() => app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`)))
   .catch(err => console.error(err));
