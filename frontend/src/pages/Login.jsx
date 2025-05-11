@@ -13,6 +13,7 @@ function Login() {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
       localStorage.setItem('token', res.data.token);
+      window.dispatchEvent(new Event('login'));
       navigate('/');
     } catch {
       alert('Credenciales incorrectas');

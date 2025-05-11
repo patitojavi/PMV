@@ -5,9 +5,16 @@ import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import Capacitaciones from './pages/Capacitaciones';
 import Perfil from './pages/Perfil';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
+  useEffect(() => {
+    const handleLogin = () => setToken(localStorage.getItem('token'));
+    window.addEventListener('login', handleLogin);
+    return () => window.removeEventListener('login', handleLogin);
+  }, []);
 
   return (
     <BrowserRouter>
