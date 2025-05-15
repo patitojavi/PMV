@@ -32,31 +32,80 @@ function Capacitaciones() {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      window.location.reload();
+      // Actualizamos la lista y limpiamos el formulario sin recargar la página
+      setTitle('');
+      setUrl('');
+      setDate('');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/meetings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMeetings(res.data);
     } catch {
       alert('Error al crear reunión');
     }
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Capacitaciones Disponibles</h2>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-6">Capacitaciones Disponibles</h2>
 
-      {role === 'capacitador' || role === 'admin' ? (
-        <form onSubmit={handleCreate} style={{ marginBottom: '2rem' }}>
-          <h3>Crear nueva capacitación</h3>
-          <input type="text" placeholder="Título" value={title} onChange={e => setTitle(e.target.value)} required />
-          <input type="url" placeholder="Enlace (Zoom, Meet...)" value={url} onChange={e => setUrl(e.target.value)} required />
-          <input type="datetime-local" value={date} onChange={e => setDate(e.target.value)} required />
-          <button type="submit">Crear</button>
+      {(role === 'capacitador' || role === 'admin') && (
+        <form onSubmit={handleCreate} className="mb-8 space-y-4 bg-white p-6 rounded shadow-md">
+          <h3 className="text-xl font-medium mb-4">Crear nueva capacitación</h3>
+
+          <input
+            type="text"
+            placeholder="Título"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="url"
+            placeholder="Enlace (Zoom, Meet...)"
+            value={url}
+            onChange={e => setUrl(e.target.value)}
+            required
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="datetime-local"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            required
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+          >
+            Crear
+          </button>
         </form>
-      ) : null}
+      )}
 
-      <ul>
+      <ul className="space-y-4">
         {meetings.map((m) => (
-          <li key={m._id}>
-            <strong>{m.title}</strong> — {new Date(m.date).toLocaleString()} <br />
-            <a href={m.url} target="_blank" rel="noreferrer">Unirse a la reunión</a> (creada por: {m.createdBy?.name || 'N/A'})
+          <li key={m._id} className="bg-white p-4 rounded shadow flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <div>
+              <strong className="text-lg">{m.title}</strong>
+              <p className="text-gray-600">{new Date(m.date).toLocaleString()}</p>
+            </div>
+            <div className="mt-2 sm:mt-0">
+              <a
+                href={m.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 hover:underline font-medium mr-4"
+              >
+                Unirse a la reunión
+              </a>
+              <span className="text-gray-500 text-sm">creada por: {m.createdBy?.name || 'N/A'}</span>
+            </div>
           </li>
         ))}
       </ul>

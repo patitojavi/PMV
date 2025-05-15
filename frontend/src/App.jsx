@@ -18,9 +18,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      {token && <Navbar />}
+      <Navbar token={token} />
       <Routes>
-        <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/capacitaciones" element={token ? <Capacitaciones /> : <Navigate to="/login" />} />
