@@ -5,10 +5,14 @@ function Home() {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-12">
-      <h1 className="text-5xl font-extrabold mb-6 text-blue-700 text-center">Bienvenido a <span className="text-indigo-600">CapacitAPP</span></h1>
+      <h1 className="text-5xl font-extrabold mb-6 text-blue-700 text-center">
+        Bienvenido a <span className="text-indigo-600">CapacitAPP</span>
+      </h1>
 
       {token ? (
-        <p className="text-shadow-blue-950 text-xl font-semibold text-center mb-8">¡Estás logueado! Explora las capacitaciones disponibles.</p>
+        <p className="text-xl font-semibold text-green-600 text-center mb-8">
+          ¡Estás logueado! Explora las capacitaciones disponibles.
+        </p>
       ) : (
         <div className="text-center mb-10">
           <h2 className="text-3xl font-semibold mb-4">Inicia sesión para continuar</h2>
@@ -16,10 +20,16 @@ function Home() {
             Accede a capacitaciones online, crea o únete a videollamadas fácilmente desde cualquier lugar.
           </p>
           <div className="space-x-4">
-            <Link to="/login" className="px-6 py-3 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+            <Link
+              to="/login"
+              className="px-6 py-3 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
+            >
               Iniciar Sesión
             </Link>
-            <Link to="/register" className="px-6 py-3 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100 transition">
+            <Link
+              to="/register"
+              className="px-6 py-3 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100 transition"
+            >
               Crear Cuenta
             </Link>
           </div>
@@ -52,6 +62,20 @@ function Home() {
           <li>Si eres capacitador, crea reuniones con un enlace para tus alumnos.</li>
           <li>Únete a reuniones activas para aprender o capacitar en línea.</li>
         </ol>
+      </section>
+
+      <section className="text-center mt-12">
+        <h3 className="text-2xl font-semibold mb-4">¿Quieres ser capacitador?</h3>
+        <p className="text-gray-700 mb-4">
+          Si estás interesado en ser parte de nuestra plataforma como capacitador, contáctame a través del correo
+          electrónico:
+        </p>
+        <a
+          href="mailto:contacto@capacitapp.com"
+          className="text-blue-600 hover:text-indigo-600 font-semibold"
+        >
+          contacto@capacitapp.com (es un ejemplo)
+        </a>
       </section>
     </div>
   );
