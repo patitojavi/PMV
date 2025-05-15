@@ -4,7 +4,7 @@ function Home() {
   const token = localStorage.getItem('token');
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-12">
+    <div className="max-w-4xl mx-auto p-8 bg-gray-200 rounded-lg shadow-md mt-12">
       <h1 className="text-5xl font-extrabold mb-6 text-blue-700 text-center">
         Bienvenido a <span className="text-indigo-600">CapacitAPP</span>
       </h1>

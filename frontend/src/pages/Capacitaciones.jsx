@@ -50,7 +50,7 @@ function Capacitaciones() {
       <h2 className="text-2xl font-semibold mb-6">Capacitaciones Disponibles</h2>
 
       {(role === 'capacitador' || role === 'admin') && (
-        <form onSubmit={handleCreate} className="mb-8 space-y-4 bg-white p-6 rounded shadow-md">
+        <form onSubmit={handleCreate} className="mb-8 space-y-4 bg-gray-200 p-6 rounded shadow-md">
           <h3 className="text-xl font-medium mb-4">Crear nueva capacitación</h3>
 
           <input
@@ -90,7 +90,7 @@ function Capacitaciones() {
 
       <ul className="space-y-4">
         {meetings.map((m) => (
-          <li key={m._id} className="bg-white p-4 rounded shadow flex flex-col sm:flex-row sm:justify-between sm:items-center">
+          <li key={m._id} className="bg-gray-200 p-4 rounded shadow flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div>
               <strong className="text-lg">{m.title}</strong>
               <p className="text-gray-600">{new Date(m.date).toLocaleString()}</p>
