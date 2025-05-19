@@ -6,6 +6,7 @@ function Capacitaciones() {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [date, setDate] = useState('');
+  const [editing, setEditing] = useState(null); // Para gestionar la edición de reuniones
 
   const token = localStorage.getItem('token');
   const role = token ? JSON.parse(atob(token.split('.')[1])).role : null; // decodifica el token
@@ -45,13 +46,62 @@ function Capacitaciones() {
     }
   };
 
+  const handleEdit = (meeting) => {
+    setEditing(meeting._id);
+    setTitle(meeting.title);
+    setUrl(meeting.url);
+    setDate(meeting.date);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/meetings/${editing}`, {
+        title, url, date
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setEditing(null); // Dejar de editar
+      setTitle('');
+      setUrl('');
+      setDate('');
+
+      // Actualizamos la lista de reuniones
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/meetings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMeetings(res.data);
+    } catch {
+      alert('Error al actualizar reunión');
+    }
+  };
+
+  const handleDelete = async (id) => {
+  if (window.confirm('¿Estás seguro de que quieres eliminar esta reunión?')) {
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/meetings/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      // Actualizamos la lista de reuniones
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/meetings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMeetings(res.data);
+    } catch {
+      alert('Error al eliminar reunión');
+    }
+  }
+};
+
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-6">Capacitaciones Disponibles</h2>
 
       {(role === 'capacitador' || role === 'admin') && (
-        <form onSubmit={handleCreate} className="mb-8 space-y-4 bg-gray-200 p-6 rounded shadow-md">
-          <h3 className="text-xl font-medium mb-4">Crear nueva capacitación</h3>
+        <form onSubmit={editing ? handleUpdate : handleCreate} className="mb-8 space-y-4 bg-gray-200 p-6 rounded shadow-md">
+          <h3 className="text-xl font-medium mb-4">{editing ? 'Actualizar Capacitación' : 'Crear nueva capacitación'}</h3>
 
           <input
             type="text"
@@ -83,7 +133,7 @@ function Capacitaciones() {
             type="submit"
             className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
           >
-            Crear
+            {editing ? 'Actualizar' : 'Crear'}
           </button>
         </form>
       )}
@@ -106,6 +156,22 @@ function Capacitaciones() {
               </a>
               <span className="text-gray-500 text-sm">creada por: {m.createdBy?.name || 'N/A'}</span>
             </div>
+            {(role === 'capacitador' || role === 'admin') && (
+              <div className="mt-4 sm:mt-0">
+                <button
+                  onClick={() => handleEdit(m)}
+                  className="bg-cyan-500 text-white px-3 py-1 rounded hover:bg-cyan-600 transition mr-4"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(m._id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                >
+                  Eliminar
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>
